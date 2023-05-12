@@ -1,0 +1,14 @@
+# Robert Sturzbecher 2023-05-12 
+# I have an old loud mechanical drive I use for backups, but was finding it was randomly spinning up when system was idle
+# So to address this I added the powershell below to shortcuts and then offline the disk when not needed
+# as this effectivly unmounts the disk from Windows I no longer have an issue of it spinning up or being accesses randomly in the 
+# background by services/applications when I do not need to access the disk. 
+
+# This was seen as a software alternative to wiring up a power switch to the drives
+
+# switch a drive to offline (unmount from Windows)
+set-disk (get-partition -DriveLetter F | get-disk | select number -ExpandProperty number) -isOffline $true
+
+
+# set all offline disks back to online (remount)
+Get-Disk | Where-Object IsOffline -Eq $True | Set-Disk -IsOffline $False
